@@ -5,13 +5,12 @@ const UserSchema = require("./UserSchema");
 mongose.connect("mongodb://localhost/users");
 
 async function saveNewUsers() {
-    const newUserWelcom = await UserSchema.create({
-        name: "Ali Sina",
-        age: 22,
-        Dob: new Date(),
-    });
-
-    console.log(newUserWelcom);
+    try {
+        const newUserWelcom = await UserSchema.exists({name: "ALI SINA YOUSOFI"});
+        console.log(newUserWelcom);
+    } catch( error) {
+        console.log(error.message);
+    }
 }
 
 saveNewUsers()
