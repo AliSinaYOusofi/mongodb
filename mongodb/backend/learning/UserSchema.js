@@ -1,6 +1,7 @@
 const mongose = require("mongoose");
 
 // and now adding custom validator using the validator object
+// adding new methods to our created schema
 const userSchema = new mongose.Schema({
     name: { type: String, 
         required: true, 
@@ -26,4 +27,10 @@ const userSchema = new mongose.Schema({
     }
 });
 
+// userSchema.method.showData = () => {} is woring
+// it does not accept arrow functions
+// adding custom methods after defining our shcema
+userSchema.methods.showData = function() {
+    console.log(`Name: ${this.name} \n Age: ${this.age} \n DOB: ${this.Dob}`);
+}
 module.exports = mongose.model("users", userSchema);

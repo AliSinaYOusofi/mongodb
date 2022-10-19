@@ -6,7 +6,8 @@ mongose.connect("mongodb://localhost/users");
 
 async function saveNewUsers() {
     try {
-        const newUserWelcom = await UserSchema.exists({name: "ALI SINA YOUSOFI"});
+        const newUserWelcom = await UserSchema.findOne({name: "ALI SINA YOUSOFI"});
+        newUserWelcom.showData();
         console.log(newUserWelcom);
     } catch( error) {
         console.log(error.message);
