@@ -33,4 +33,13 @@ const userSchema = new mongose.Schema({
 userSchema.methods.showData = function() {
     console.log(`Name: ${this.name} \n Age: ${this.age} \n DOB: ${this.Dob}`);
 }
+// adding static methods for the whole model
+userSchema.statics.findByName = function(name) {
+    return this.find({name: new RegExp(name, 'i')})
+}
+
+// or adding methods to the query
+userSchema.query.byName = function (name) {
+    return this.where({name: new RegExp(name, 'i')});
+}
 module.exports = mongose.model("users", userSchema);
