@@ -6,9 +6,11 @@ mongose.connect("mongodb://localhost/users");
 
 async function saveNewUsers() {
     try {
-        const newUserWelcom = await UserSchema.find().byName();
-        //
+        const newUserWelcom = await UserSchema.deleteOne({name: "Ali Sina Yousofi"})
+        
         console.log(newUserWelcom);
+       //
+        console.log(newUserWelcom.nameAndAge);
     } catch( error) {
         console.log(error.message);
     }

@@ -14,7 +14,7 @@ const userSchema = new mongose.Schema({
         type: Number, 
         required: true, 
         min: 10,
-        max: 21,
+        // max: 41, we get errors, no time to increment it every time
         validate: {
             validator: value => value % 2 !== 0,
             message: props => `${props.value} is not an even number`
@@ -42,4 +42,30 @@ userSchema.statics.findByName = function(name) {
 userSchema.query.byName = function (name) {
     return this.where({name: new RegExp(name, 'i')});
 }
+
+// adding virtual methods to the schema using
+// Schema.virtual.method = function(prop) { return this.anything}
+// in virtual data is not stored in the main document it
+// lives inside our code only
+
+// way to create a virtual method
+userSchema.virtual("nameAndAge").get( function () {
+    return `${this.name} is ${this.age} years old as of ${Date.now()}`
+})
+
+// making a middleware to our mongodb
+// run this pre/before saving the dato in the database
+userSchema.pre("save", function (next) {
+    this.Dob = Date.now();
+    this.age = this.age + 2;
+    next();
+});
+
+// doc can also be used as a parameter
+// in the callback function of Schem.pre(option, function(doc, next))
+userSchema.post("deleteOne", function(doc, next) {
+    doc.showData()
+    const currentUserToBeDeleted = String(this.name + this.age + this.Dob)
+    console.log("being delted is: " + currentUserToBeDeleted)
+})
 module.exports = mongose.model("users", userSchema);
